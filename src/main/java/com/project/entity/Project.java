@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Project {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
@@ -20,7 +20,7 @@ public class Project {
 	private String intern;
 	private String projectManager;
 	private String updates;
-	
+
 	public Project() {
 		super();
 	}
@@ -89,10 +89,10 @@ public class Project {
 		this.updates = updates;
 	}
 
-	
-	
-	
-	
-	
+
+
+
+
+
 
 }

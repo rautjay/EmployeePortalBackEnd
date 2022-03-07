@@ -22,18 +22,18 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private UserRepository userRepository;
-	
-	
+
+
 	@GetMapping("/")
 	public List<User> getAllUsers(){
-		
+
 		return this.userService.getAllUsers();
-		
+
 	}
-       
-	@GetMapping("/{userId}") 
+
+	@GetMapping("/{userId}")
 	public User getUser(@PathVariable("userId") int id) {
-		
+
 		 Optional<User> user = this.userRepository.findById(id);
 		 return user.get();
 	}

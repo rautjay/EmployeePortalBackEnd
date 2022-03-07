@@ -15,12 +15,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "roles")
 public class Role {
-	
+
 	@Id
 	private int roleId;
 
 	private String name;
-	 
+
 	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "role")
 	 private Set<UserRole> userroles = new HashSet<>();
@@ -48,15 +48,15 @@ public class Role {
 	public void setUserroles(Set<UserRole> userroles) {
 		this.userroles = userroles;
 	}
-	
-	
 
-	
+
+
+
 	public Role() {
 		super();
 	}
-	 
-	 
 
-	
+
+
+
 }

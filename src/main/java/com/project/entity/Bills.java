@@ -1,8 +1,5 @@
 package com.project.entity;
 
-import java.sql.Blob;
-
-import javax.annotation.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,18 +8,18 @@ import javax.persistence.Lob;
 
 @Entity
 public class Bills {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int billsId;
-    
+
 	private float amount;
-	
+
 	@Lob
 	private byte[] attachement;
-	
+
 	private String filename;
-	
+
 	private String fileUri;
 
 	public Bills() {
@@ -61,8 +58,8 @@ public class Bills {
 		this.filename = filename;
 	}
 
-	
-	
+
+
 	public String getFileUri() {
 		return fileUri;
 	}
@@ -77,7 +74,7 @@ public class Bills {
 		this.attachement = attachement;
 		this.filename = filename;
 	}
-	
-	
-	
+
+
+
 }

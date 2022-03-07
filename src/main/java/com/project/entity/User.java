@@ -24,17 +24,17 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "user")
 
 public class User implements UserDetails {
-	
-	
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer userId;
-	
+
 	private String username;
-	
+
 	private String password;
-	
-	
+
+
 	@OneToOne(fetch = FetchType.EAGER,
 	        cascade = CascadeType.ALL,orphanRemoval=true)
 	@JsonManagedReference
@@ -44,16 +44,17 @@ public class User implements UserDetails {
 	@JoinColumn(name = "intern_id")
 	@JsonManagedReference
     private Intern intern;
-	
 
-	
+
+
 	@JsonManagedReference(value ="user-roles")
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<UserRole> userroles = new HashSet<>();
 
-	
-	
 
+
+
+	@Override
 	public String getPassword() {
 		return password;
 	}
@@ -95,6 +96,7 @@ public class User implements UserDetails {
 		userId = userId;
 	}
 
+	@Override
 	public String getUsername() {
 		return username;
 	}
@@ -102,23 +104,23 @@ public class User implements UserDetails {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 
 	//userDetails implemented Methods
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-	     
+
 		Set<Authority> set = new HashSet<>();
-		
+
 		this.userroles.forEach(UserRole ->{
 			 set.add(new Authority(UserRole.getRole().getName()));
 		});
-		
+
 		return set;
 	}
 
-	
+
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
@@ -142,14 +144,14 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	
-	
 
-	
-	
 
-	
-	
+
+
+
+
+
+
+
 
 }

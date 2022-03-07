@@ -1,25 +1,18 @@
 package com.project.entity;
 
-import java.sql.Date;
 
-import javax.persistence.CascadeType;
+
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.type.TrueFalseType;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
 @Entity
@@ -38,6 +31,7 @@ public class Leaves {
 	private String grantedOption;
 	private String comment;
 
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference(value = "employee-leaves")
 	private Employee employee;
@@ -51,18 +45,17 @@ public class Leaves {
 		super();
 	}
 
-//
-//	public int getInternId() {
-//		return this.intern.getId();
-//
-//	}
 
 
-//	public int getEmployeeId() {
-//
-//		return this.employee.getId();
-//
-//	}
+
+	public int getEmployeeId() {
+
+		if(this.employee == null) {
+			return this.intern.getId();
+		}
+		return this.employee.getId();
+
+	}
 
 	public Employee getEmployee() {
 		return employee;
@@ -152,7 +145,19 @@ public class Leaves {
 		this.comment = comment;
 	}
 
+	public String getUsername() {
+		if(this.employee == null) {
+			return this.intern.getUser().getUsername();
+		}
+		return this.employee.getUser().getUsername();
+	}
+
+
+
+
 	
+
 	
+
 
 }

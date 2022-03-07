@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.project.entity.Employee;
 import com.project.entity.Intern;
 import com.project.entity.Role;
 import com.project.entity.User;
@@ -29,25 +32,25 @@ import com.project.service.UserService;
 @RequestMapping("/intern")
 @CrossOrigin("*")
 public class InternController {
-	
+
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private InternService internService;
 	@Autowired
 	private InternRepository internRepository;
-	
-	
+
+
 	//Registration Intern
 	@PostMapping("/register")
 	public User createUser(@RequestBody User user) throws Exception {
 		System.out.println("inside intern controller.............");
 		//encoding password with bcryptpasswordEncoder
 		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-		
+
 		Set<UserRole> roles = new HashSet<>();
 		Role role = new Role();
 		role.setRoleId(46);
@@ -57,46 +60,65 @@ public class InternController {
 		userRole.setRole(role);
 		roles.add(userRole);
 		return this.userService.createUser(user, roles);
-		
-		
+
+
 		}
-	
-	@GetMapping("/{email}")
-	public Intern getEmployee(@PathVariable("email") String email) {
-		
-		return this.internService.getIntern(email);
+
+	@GetMapping("/{id}")
+	public Intern getEmployee(@PathVariable("id") int id) {
+
+		return this.internService.getIntern(id);
 	}
-	
+
 	@GetMapping("/load")
 	public List<Intern> laodAllEmployee(){
 		return this.internService.getAllIntern();
-		
+
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public void deleteEmployee(@PathVariable("id") int id) {
 		this.internService.deleteIntern(id);
-		
+
 	}
-	
+
 	@GetMapping("/all")
 	public List<User> loadAllUser(){
-		
+
 		String role = "INTERN";
-		
+
 		return this.userService.getAllUsers(role);
-		
+
 	}
-	
+
 	@PutMapping("/{id}")
 	public Intern updateIntern(@RequestBody Intern intern,@PathVariable("id") int id) {
-		Optional<Intern> intern1 = this.internRepository.findById(id);
-         if(!intern1.isPresent()) {
+		Optional<Intern> optionalIntern = this.internRepository.findById(id);
+         if(!optionalIntern.isPresent()) {
         	 new Exception("intern with id not present");
          }
-         
-         intern.setId(intern1.get().getId());
-	return this.internService.updateIntern(intern);
+
+        Intern intern1 = optionalIntern.get();
+         intern1.setName(intern.getName());
+         intern1.setMobile(intern.getMobile());
+         intern1.setEmail(intern.getEmail());
+         intern1.setMentor(intern.getMentor());
+         intern1.setLocation(intern.getLocation());
+         intern1.setProjectname(intern.getProjectname());
+         intern1.setActionTaken(intern.getActionTaken());
+         intern1.setReview(intern.getReview());
+         intern1.setAddress(intern.getAddress());
+        
+         intern1.setDOJ(intern.getDOJ());
+         intern1.setDOL(intern.getDOL());
+	return this.internService.updateIntern(intern1);
 	}
+       
+	
+	@PutMapping("/upload/{id}")
+    public String uplaodProfilePic(@RequestParam("profilePic") MultipartFile file,@PathVariable("id") int id)
+    {
+     return this.internService.UploadProfilePic(file, id);
+    }
 
 }

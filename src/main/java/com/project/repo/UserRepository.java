@@ -13,8 +13,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 
 	public User findByUsername(String username);
-	
+
 	@Query( "select u from User u JOIN FETCH u.userroles ur join fetch ur.role r where r.name =:roleName" )
 	 public List<User> findBySpecificRoles(@Param("roleName") String roleName);
-	
+
 }

@@ -15,44 +15,44 @@ import com.project.service.BillsService;
 
 @Service
 public class BillsServiceImpl implements BillsService {
-	
+
 	@Autowired
 	private BillsRepository billsrepository;
-	 
+
 
 
 	@Override
 	public Bills addBills(Bills bill) {
-	
+
 	 return this.billsrepository.save(bill);
 	}
 
 	@Override
 	public List<Bills> allBills() {
-		
+
 		return this.billsrepository.findAll();
 	}
 
 	@Override
 	public Bills updateBills(Bills bill) {
-		
+
 		return this.billsrepository.save(bill);
 	}
 
 	@Override
 	public Bills getBill(int id) {
-		
+
 		return this.billsrepository.findById(id).get();
 	}
 
 	@Override
 	public void deleteBills(int id) {
-		
+
 		Bills bill = new Bills();
 		bill.setBillsId(id);
-		
+
 		 this.billsrepository.delete(bill);
-		
+
 	}
 
 	@Override
@@ -70,16 +70,16 @@ public class BillsServiceImpl implements BillsService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-              return this.billsrepository.save(bill);	   
+              return this.billsrepository.save(bill);
 //
 //	    return this.billsrepository.save(bill);
 	}
-	
-	
-	    
-	 
-	 
 
-	
+
+
+
+
+
+
 
 }

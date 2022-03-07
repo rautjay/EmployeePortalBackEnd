@@ -11,19 +11,19 @@ import com.project.repo.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-	
+
 	@Autowired
 	private UserRepository userrepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
+
 		User user = this.userrepository.findByUsername(username);
 		if(user == null) {
 			System.out.println("user not found");
 			throw new UsernameNotFoundException("Invalid credentials");
 		}
-		
+
 		return user;
 	}
 

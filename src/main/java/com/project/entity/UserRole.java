@@ -13,15 +13,15 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name = "user_roles")
 public class UserRole {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userRoleId;
-	
+
 	@JsonBackReference(value = "user-roles")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
-	
+
 	@ManyToOne
 	@JsonBackReference
 	private Role role;
@@ -49,12 +49,12 @@ public class UserRole {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
-	
+
+
 
 	public UserRole() {
 		super();
 	}
-	
+
 
 }

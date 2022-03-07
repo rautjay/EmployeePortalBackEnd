@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.project.entity.Employee;
 import com.project.entity.Intern;
 import com.project.entity.Leaves;
-import com.project.entity.User;
 import com.project.repo.EmployeeRepository;
 import com.project.repo.InternRepository;
 import com.project.repo.LeaveRepository;
@@ -19,13 +18,13 @@ import com.project.service.LeaveService;
 
 @Service
 public class LeaveServiceImpl implements LeaveService {
-	
+
 	@Autowired
 	private LeaveRepository leaverepository;
-     
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	@Autowired
@@ -34,35 +33,35 @@ public class LeaveServiceImpl implements LeaveService {
 
 	@Override
 	public List<Leaves> getLeaves() {
-	
+
 		return this.leaverepository.findAll();
 	}
 
 	@Override
 	public Leaves getLeave(int Id) {
-		
+
 		return this.leaverepository.findById(Id).get();
 	}
 
 	@Override
 	public void deleteLeaves(int id) {
-		
+
 		this.leaverepository.deleteById(id);
-		
+
 	}
 
 
 	@Override
 	public Leaves updateLeave(Leaves leave){
-		
-		
+
+
 		return this.leaverepository.save(leave);
-		 
+
 	}
 
 	@Override
 	public Leaves addLeaveToEmployee(int id, Leaves leave) throws Exception {
-	
+
 		 List<Leaves> leaves = new ArrayList<>();
 	        Employee employee1 = new Employee();
 
@@ -79,11 +78,13 @@ public class LeaveServiceImpl implements LeaveService {
 
 	        //tie Employee to leave
 	        leave.setEmployee(employee);
-
+	       
+//             leave.getEmployee().setTotalCasualLeaves(4);
+	        
 	        Leaves leave1 = this.leaverepository.save(leave);
 	        //tie leave to employee
 	        leaves.add(leave1);
-	        employee1.setLeavelist(leaves);;
+	        employee1.setLeavelist(leaves);
 
 	        return leave1;
 
@@ -107,17 +108,17 @@ public class LeaveServiceImpl implements LeaveService {
 
 	        //tie Employee to leave
 	        leave.setIntern(intern);
-
 	        Leaves leave1 = this.leaverepository.save(leave);
 	        //tie leave to employee
 	        leaves.add(leave1);
-	        intern1.setLeaveList(leaves);;
-
+	        intern1.setLeaveList(leaves);
+           
+            
 	        return leave1;
 
 	}
 	}
-	
-     
-	
+
+
+
 

@@ -11,19 +11,19 @@ import com.project.service.ProjectService;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
-	
+
 	@Autowired
 	private ProjectRepository projectrepository;
 
 	@Override
 	public Project addProject(Project project) {
-		
+
 		return this.projectrepository.save(project);
 	}
 
 	@Override
 	public Project updateProject(Project project) {
-	
+
 		return this.projectrepository.save(project);
 	}
 
@@ -44,7 +44,7 @@ public class ProjectServiceImpl implements ProjectService {
 		Project project = new Project();
 		project.setId(id);
 		this.projectrepository.delete(project);
-		
+
 	}
 
 }

@@ -19,40 +19,40 @@ import com.project.service.ProjectService;
 @RequestMapping("/project")
 @CrossOrigin("*")
 public class ProjectController {
-	
+
 	@Autowired
 	private ProjectService projectService;
-	
-	//add project 
+
+	//add project
 	@PostMapping("/")
 	public ResponseEntity<Project> addProject(@RequestBody Project project)
 	{
 		Project project1 = this.projectService.addProject(project);
 		return ResponseEntity.ok(project1);
 	}
-	
+
 	//get project
 	@GetMapping("/{id}")
 	public Project getProject(@PathVariable("id") int ProjectId)
 	{
 		return this.projectService.getProject(ProjectId);
 	}
-	
+
 	//getallProjects
 	@GetMapping("/getall")
 	public ResponseEntity<?> getAllProjects()
 	{
 		return ResponseEntity.ok(this.projectService.getProjects());
 	}
-	
-    //update 
-     
+
+    //update
+
 	@PutMapping("/")
 	public Project updateProject(@RequestBody Project project)
 	{
 		return this.projectService.updateProject(project);
 	}
-	
+
 	//delete project
 	@DeleteMapping("/{id}")
 	public void deleteProject(@PathVariable("id") int projectId)

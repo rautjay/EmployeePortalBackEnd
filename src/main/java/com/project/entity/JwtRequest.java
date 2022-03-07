@@ -1,12 +1,12 @@
 package com.project.entity;
 
 public class JwtRequest {
-    
+
 	 String username;
 	 String password;
-	
-	 
-	 
+
+
+
 	 public JwtRequest() {
 		super();
 	}
@@ -27,6 +27,6 @@ public class JwtRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	 
-	 
+
+
 }

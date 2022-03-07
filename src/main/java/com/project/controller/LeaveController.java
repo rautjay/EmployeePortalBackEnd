@@ -1,11 +1,8 @@
 package com.project.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.project.entity.Employee;
 import com.project.entity.Intern;
 import com.project.entity.Leaves;
@@ -30,7 +26,7 @@ import com.project.service.LeaveService;
 @RequestMapping("/leave")
 @CrossOrigin("*")
 public class LeaveController {
-	
+
 	@Autowired
 	private LeaveService leaveService;
 	@Autowired
@@ -39,70 +35,102 @@ public class LeaveController {
 	 private EmployeeRepository employeeRepository;
 	 @Autowired
  private InternRepository internRepository;
-	 
+
 	//add leave
 	@PostMapping("/{id}")
 	public ResponseEntity<Leaves> addleaveToEmployee(@PathVariable("id") int id,@RequestBody Leaves leave)
 	{
-	
+
 		try {
 			leave = this.leaveService.addLeaveToEmployee(id, leave);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		return ResponseEntity.ok(leave);
 	}
-	
+
 	//get leave
 	@GetMapping("/{id}")
 	public Leaves getleave(@PathVariable("id") int leaveId)
 	{
 		return this.leaveService.getLeave(leaveId);
 	}
-	
+
 	//getallleave
 	@GetMapping("/getall")
 	public ResponseEntity<?> getAllLeaves()
 	{
 		return ResponseEntity.ok(this.leaveService.getLeaves());
 	}
-	
-    //update 
-     
+
+    //update
+
 	    @PutMapping("/{id}/leave/{employeeId}")
 	    public ResponseEntity<Leaves> update(@RequestBody Leaves leave , @PathVariable("id") int id,@PathVariable("employeeId") int empId) {
 //	        Optional<Employee> optionalEmployee = employeeRepository.findById(leave.getEmployee().getId());
 	    	Optional<Employee> employee = employeeRepository.findById(empId);
 	    	Optional<Intern> intern = this.internRepository.findById(empId);
 	    	Optional<Leaves> optionalLeaves = leaveRepository.findById(id);
-	    
-	        if (employee.isPresent()) {
-	        	   leave.setEmployee(employee.get());
-	        }
+	    	Leaves leave1 = optionalLeaves.get();
+	        String leaveType = "Casual";
+	        String grantedOption = "Accepted";
+              String leaveType1 = "Earned";
+              String leaveType2 = "Medical";
+	    	   if (employee.isPresent()) {
+		        	Employee employee1 =employee.get();
+		        	System.out.println(  "nol.........." +leave.getNumberOfLeave());
+		        	
+		        	
+		        		
+		        	
+		        	 if(leave1.getLeavetype().equals(leaveType) && leave.getGrantedOption().equals(grantedOption)) {
+		        	employee1.setTotalCasualLeaves(employee1.getTotalCasualLeaves() + leave.getNumberOfLeave());
+		        	System.out.println("totalcasualalEaves......" + employee1.getTotalCasualLeaves());
+		            } 
+		        	 else if(leave1.getLeavetype().equals(leaveType1) && leave.getGrantedOption().equals(grantedOption))
+		        	 {
+		        		 employee1.setTotalEarnedLeaves(employee1.getTotalEarnedLeaves() + leave.getNumberOfLeave());
+		        		 
+		        		 System.out.println("totalEarnedLeaves............." + employee1.getTotalEarnedLeaves());
+		        		 
+		        	 }
+		        	 else if(leave1.getLeavetype().equals(leaveType2) && leave.getGrantedOption().equals(grantedOption))
+		        	 {
+		        		 employee1.setTotalSickLeaves(employee1.getTotalSickLeaves() + leave.getNumberOfLeave());
+		        		 
+		        		 System.out.println("totalEarnedLeaves............." + employee1.getTotalEarnedLeaves());
+		        		 
+		        	 }
+		        }
 	        else if(intern.isPresent()) {
-	        	   leave.setIntern(intern.get());
+	        	Intern intern1 = intern.get();
+	        	if(leave.getGrantedOption().equals(grantedOption)) {
+	        		   intern1.setTotalLeave(intern1.getTotalLeave() + leave.getNumberOfLeave());
+	        	}
 	        }
 
 	        else  {
 	            return ResponseEntity.unprocessableEntity().build();
 	        }
 
-	     
-	        leave.setId(optionalLeaves.get().getId());
-	        leaveRepository.save(leave);
+
+	       optionalLeaves.get().setGrantedOption(leave.getGrantedOption());
+	       optionalLeaves.get().setComment(leave.getComment());
+	        leaveRepository.save(leave1);
 
 	        return ResponseEntity.noContent().build();
 	 }
-	
+
 	//delete leave
 	@DeleteMapping("/{id}")
-	public void deleteLeave(@PathVariable("id") int leaveId)
+	public String deleteLeave(@PathVariable("id") int id)
 	{
-		this.leaveService.deleteLeaves(leaveId);
+		this.leaveService.deleteLeaves(id);
+		return "leave Deleted";
 	}
 
-//	
+//
 //	@PutMapping("/update/{id}")
 //	 public Leaves upateLeaves(@PathVariable("id") int id, @RequestBody Leaves leave) {
 //		 List<Leaves> leaves = new ArrayList<>();
@@ -129,19 +157,19 @@ public class LeaveController {
 //
 //	        return leave1;
 //
-//		
+//
 //	}
-	
+
 	//add leaves in Intern
-	
+
 	@PostMapping("/intern/{id}")
 	public ResponseEntity<Leaves> addleaveToIntern(@PathVariable("id") int id,@RequestBody Leaves leave)
 	{
-	
+
 		try {
 			leave = this.leaveService.addLeaveToIntern(id, leave);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		return ResponseEntity.ok(leave);

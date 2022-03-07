@@ -18,28 +18,28 @@ import com.project.service.ReportService;
 
 @Service
 public class ReportServiceImpl implements ReportService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
 	private ReportRepository reportRepository;
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	@Autowired
 	private InternRepository internRepository;
 	@Override
-	
-	
+
+
 	public Report addReportToEmployee(int id, Report report) throws Exception {
-		
+
 		List<Report> reportList = new ArrayList<>();
 	        Employee employee1 = new Employee();
 
 	        Optional<Employee> byId = this.employeeRepository.findById(id);
 	        try {
 				if (!byId.isPresent()) {
-				    throw new Exception("Author with id " + id + " does not exist");
+				    throw new Exception("Employee with id " + id + " does not exist");
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -53,7 +53,7 @@ public class ReportServiceImpl implements ReportService {
 	        Report report1 = this.reportRepository.save(report);
 	        //tie leave to employee
 	        reportList.add(report1);
-	        employee1.setReportList(reportList);;
+	        employee1.setReportList(reportList);
 
 	        return report1;
 
@@ -80,7 +80,7 @@ public class ReportServiceImpl implements ReportService {
 	       Report report1 = this.reportRepository.save(report);
 	        //tie leave to employee
 	        reportList.add(report1);
-	        intern1.setReportList(reportList);;
+	        intern1.setReportList(reportList);
 
 	        return report1;
 	}
@@ -99,9 +99,9 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public void deleteReport(int id) {
 		this.reportRepository.deleteById(id);
-		
+
 	}
 
 
-	
+
 }

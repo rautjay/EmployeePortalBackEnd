@@ -24,27 +24,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
     private UserDetailsServiceImpl detailsServiceImpl;
-	
+
 	@Autowired
 	private JwtUtil jwtutil;
-	
-	
-	
+
+
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		
+
 		final String requestTokenHeader = request.getHeader("Authorization");
 		System.out.println(requestTokenHeader);
 		String username = null;
 		String jwtToken= null;
-		if(requestTokenHeader!=null && requestTokenHeader.startsWith("Bearer ")) 
+		if(requestTokenHeader!=null && requestTokenHeader.startsWith("Bearer "))
 		{
-			
+
 			jwtToken = requestTokenHeader.substring(7);
 			  try{
 				  username = this.jwtutil.extractUsername(jwtToken);
-			  
+
 			  }catch (ExpiredJwtException e) {
 				  e.printStackTrace();
 				System.out.println("jwt token has expired");
@@ -52,33 +52,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				 e.printStackTrace();
 				 System.out.println("error");
 			 }
-			
-			 
+
+
 		}else
 		{
 			System.out.println("Invalid token,not start with bearer string");
 		}
-		
-		
+
+
 		if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null)
 		{
-			
+
 	    final  UserDetails userdetails  = this.detailsServiceImpl.loadUserByUsername(username);
-		
+
 		   if(this.jwtutil.validateToken(jwtToken, userdetails))
 	      	{
-			//token is valid 
-			
+			//token is valid
+
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userdetails,null,userdetails.getAuthorities());
 			usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 		    }
-		
-		}else 
+
+		}else
 		{
 			System.out.println("token is not valid");
 		}
-		
+
 		filterChain.doFilter(request, response);
 	}
 

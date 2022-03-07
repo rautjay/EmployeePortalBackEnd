@@ -1,22 +1,24 @@
 package com.project.entity;
 
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-public class Documentation {
+public class ComDocument {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
+
 
 	@Lob
 	private byte[] file;
@@ -25,21 +27,14 @@ public class Documentation {
 
 	private String fileUri;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@PrimaryKeyJoinColumn
-	@JsonBackReference(value = "employee-docs")
+	@OneToOne
+	@JsonBackReference(value = "employee-comDocs")
 	private Employee employee;
 
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonBackReference(value = "intern-docs")
+	@OneToOne
+	@JsonBackReference(value = "intern-comDocs")
 	private Intern intern;
-
-
-
-	public Documentation() {
-		super();
-	}
 
 	public int getId() {
 		return id;
@@ -73,6 +68,10 @@ public class Documentation {
 		this.fileUri = fileUri;
 	}
 
+	public ComDocument() {
+		super();
+	}
+
 	public Employee getEmployee() {
 		return employee;
 	}
@@ -88,6 +87,7 @@ public class Documentation {
 	public void setIntern(Intern intern) {
 		this.intern = intern;
 	}
+
 
 
 
