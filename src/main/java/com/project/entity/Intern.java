@@ -62,14 +62,14 @@ public class Intern {
 	@JsonBackReference
 	private User user;
 
-	@OneToMany( mappedBy = "intern",cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval=true)
+	@OneToMany( mappedBy = "intern",cascade = CascadeType.ALL, orphanRemoval=true)
 	@JsonManagedReference(value = "intern-leave")
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Leaves> leaveList = new ArrayList<>();
 
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "intern",fetch = FetchType.LAZY,orphanRemoval=true)
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "intern",fetch = FetchType.LAZY, orphanRemoval = true)
 	@JsonManagedReference(value = "intern-docs")
-	private List<Documentation> documents = new ArrayList<>();
+	private List<Documentation> documents;
 
 	@JsonManagedReference(value = "intern-report")
 	@OneToMany( mappedBy = "intern",cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval=true)
@@ -276,6 +276,14 @@ public class Intern {
 	public void setProfilePic(String profilePic) {
 		this.profilePic = profilePic;
 	}
+
+
+
+
+	
+
+
+
 
 
 

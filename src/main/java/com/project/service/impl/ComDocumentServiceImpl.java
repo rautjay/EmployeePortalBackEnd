@@ -46,7 +46,6 @@ public class ComDocumentServiceImpl implements ComDocumentService {
 		e.printStackTrace();
 	}
 
-       Employee employee1 = new Employee();
 
        Optional<Employee> byId = this.employeeRepository.findById(id);
        try {
@@ -63,12 +62,13 @@ public class ComDocumentServiceImpl implements ComDocumentService {
        {
     
     	 	  ComDocument doc1 = employee.getComDocument();
+    	 	   doc1.setEmployee(employee);
     	   	  doc1.setFile(comDoc.getFile());
     	   	  doc1.setFilename(comDoc.getFilename());
     	   	  doc1.setFileUri(comDoc.getFileUri());
     	   	  //tie Employee to leave
-    	      doc1.setEmployee(employee);
-    	    
+    	   
+    	       
     	      //tie leave to employee
     		   return this.documentRepository.save(doc1);
 

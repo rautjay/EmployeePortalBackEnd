@@ -35,7 +35,7 @@ public class Employee {
 		private String location;
 
 		private String designation;
-
+		private String reportingTo;
 		private String mobile;
 
 		private String email;
@@ -69,12 +69,20 @@ public class Employee {
 		 @Fetch(value = FetchMode.SUBSELECT)
 		 private List<Leaves> leaveList = new ArrayList<>();
 
-		@OneToMany(cascade = CascadeType.ALL,mappedBy = "employee",fetch = FetchType.EAGER)
+		@OneToMany(cascade = CascadeType.ALL,mappedBy = "employee",fetch = FetchType.EAGER, orphanRemoval = true)
 		@JsonManagedReference(value = "employee-docs")
-		private List<Documentation> documents = new ArrayList<>();
+		private List<Documentation> documents;
 
+		
+		@OneToMany(cascade = CascadeType.ALL,mappedBy = "employee",fetch = FetchType.EAGER, orphanRemoval = true)
+		@JsonManagedReference(value = "employee-bills")
+		 @Fetch(value = FetchMode.SUBSELECT)
+		private List<Bills> bills;
+
+		
+		
 		@JsonManagedReference(value = "employee-report")
-		@OneToMany( mappedBy = "employee",cascade = CascadeType.ALL)
+		@OneToMany( mappedBy = "employee",cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 		@Fetch(value = FetchMode.SUBSELECT)
 		private List<Report> reportList = new ArrayList<>();
 
@@ -89,7 +97,9 @@ public class Employee {
 		
 		private int totalSickLeaves;
 		
-
+		@OneToOne(mappedBy = "employee",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+		@JsonManagedReference(value = "employee-deatilsDoc")
+		private DetailsDoc detailsDoc;
 
 		public User getUser() {
 			return user;
@@ -189,6 +199,14 @@ public class Employee {
 
 
 
+		public List<Bills> getBills() {
+			return bills;
+		}
+
+		public void setBills(List<Bills> bills) {
+			this.bills = bills;
+		}
+
 		public String getPermanentAddress() {
 			return permanentAddress;
 		}
@@ -205,6 +223,10 @@ public class Employee {
 			this.currentAddress = currentAddress;
 		}
 
+		
+
+
+	
 		public List<Documentation> getDocuments() {
 			return documents;
 		}
@@ -257,6 +279,14 @@ public class Employee {
     	   }
     	   return this.comDocument.getFilename();
        }
+       
+       
+       public String getDetailsFilename() {
+    	   if(this.detailsDoc ==null) {
+    		   return "file not present!!";
+    	   }
+    	   return this.detailsDoc.getFilename();
+       }
 
 	public String getReview() {
 		return review;
@@ -304,6 +334,22 @@ public class Employee {
 
 	public void setTotalSickLeaves(int totalSickLeaves) {
 		this.totalSickLeaves = totalSickLeaves;
+	}
+
+	public DetailsDoc getDetailsDoc() {
+		return detailsDoc;
+	}
+
+	public void setDetailsDoc(DetailsDoc detailsDoc) {
+		this.detailsDoc = detailsDoc;
+	}
+
+	public String getReportingTo() {
+		return reportingTo;
+	}
+
+	public void setReportingTo(String reportingTo) {
+		this.reportingTo = reportingTo;
 	}
 
 

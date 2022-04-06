@@ -14,45 +14,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.entity.ComDocument;
-import com.project.repo.ComDocumentRepository;
-import com.project.service.ComDocumentService;
+import com.project.entity.DetailsDoc;
+import com.project.repo.DetailsDocRepository;
+import com.project.service.DetailsDocService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/docs")
-public class ComDocumentController {
-
-
+@RequestMapping("/details")
+public class DetailsDocController {
+	
 	@Autowired
-	private ComDocumentRepository docsRepository;
+  private 	DetailsDocService detailsService;
+	
 	@Autowired
-	private ComDocumentService documentService;
+   private	 DetailsDocRepository docsRepository;
+	
+	 @PostMapping( value = "/upload/{id}")
+	   public ResponseEntity<String> uploadFile( @RequestParam("file") MultipartFile file,@PathVariable("id") int id) {
+	      
+		   DetailsDoc doc = new DetailsDoc();
+	          this.detailsService.UploadDocument(file, doc, id);
 
-
-	   @PostMapping( value = "/upload/{id}")
-	   public ComDocument uploadFile( @RequestParam("file") MultipartFile file,@PathVariable("id") int id) {
-	        ComDocument comDoc = new ComDocument();
-
-	          this.documentService.UploadDocument(file, comDoc, id);
-
-			return comDoc;
+			return ResponseEntity.ok("file uploaded");
 		  }
-
-	   @PostMapping( value = "/upload/intern/{id}")
-	   public ComDocument uploadFileToIntern( @RequestParam("file") MultipartFile file,@PathVariable("id") int id) {
-	        ComDocument comDoc = new ComDocument();
-		
-	          this.documentService.UploadDocumenToIntern(file, comDoc, id);
-
-			return comDoc;
-		  }
-
-
-
-	   @GetMapping("/download/{fileName:.+}")
+	 
+	 
+	  @GetMapping("/download/{fileName:.+}")
 	   public ResponseEntity<Resource> downloadFromDB(@PathVariable String fileName) throws Exception {
-	   	ComDocument document = this.docsRepository.findByFilename(fileName);
+	   	DetailsDoc document = this.docsRepository.findByFilename(fileName);
 	   	System.out.println(document.getFileUri());
 
 	    return ResponseEntity.ok().

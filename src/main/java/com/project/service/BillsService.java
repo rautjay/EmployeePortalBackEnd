@@ -19,7 +19,7 @@ public interface BillsService {
 	public void deleteBills(int id);
 
 	//store attachement
-	public Bills storeBills(MultipartFile file,Bills bill);
+	public Bills storeBills(MultipartFile file,Bills bill, int id);
 
 
 }

@@ -69,6 +69,9 @@ public class BillsController {
 
    @PutMapping("/")
    public Bills updateBills(@RequestBody Bills bill) {
+	   
+	   
+	   
 	   return this.billsService.updateBills(bill);
    }
 
@@ -80,9 +83,10 @@ public class BillsController {
 
    }
 
-   @PostMapping( value = "/upload")
-   public ResponseEntity<String> uploadFile(@RequestPart("obj") Bills bill, @RequestPart("file") MultipartFile file) {
-
+   @PostMapping( value = "/upload/{id}")
+   public ResponseEntity<String> uploadFile(@RequestPart("obj") Bills bill, @RequestPart("file") MultipartFile file,@PathVariable("id") int id) {
+         
+	 
 	   System.out.println("file....." + file + "amount.....");
 	   if(!file.getContentType().equals("application/pdf") ) {
 		   System.out.println("pdf file required!!");
@@ -90,7 +94,7 @@ public class BillsController {
 
 	   }
 
-          this.billsService.storeBills(file,bill);
+          this.billsService.storeBills(file,bill, id);
 
 		return ResponseEntity.ok("file uploaded");
 	  }

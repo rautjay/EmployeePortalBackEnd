@@ -34,11 +34,7 @@ public class DocumentationController {
 	   @PostMapping( value = "/upload/{id}")
 	   public ResponseEntity<String> uploadFile( @RequestParam("file") MultipartFile file,@PathVariable("id") int id) {
 	        Documentation Doc = new Documentation();
-		   if(!file.getContentType().equals("application/pdf") ) {
-			   System.out.println("pdf file required!!");
-			   throw new IllegalArgumentException("Incorrect file type, PDF required.");
-
-		   }
+		 
 
 	          this.docsService.UploadDocument(file, Doc, id);
 
@@ -48,11 +44,7 @@ public class DocumentationController {
 	   @PostMapping( value = "/upload/intern/{id}")
 	   public ResponseEntity<String> uploadFiletoIntern( @RequestParam("file") MultipartFile file,@PathVariable("id") int id) {
 	        Documentation Doc = new Documentation();
-		   if(!file.getContentType().equals("application/pdf") ) {
-			   System.out.println("pdf file required!!");
-			   throw new IllegalArgumentException("Incorrect file type, PDF required.");
-
-		   }
+		
 
 	          this.docsService.UploadDocumenToIntern(file, Doc, id);
 

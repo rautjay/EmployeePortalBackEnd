@@ -112,6 +112,7 @@ public class EmployeeController {
          employee1.setPermanentAddress(employee.getPermanentAddress());
          employee1.setDOJ(employee.getDOJ());
          employee1.setDOL(employee.getDOL());
+         employee1.setReportingTo(employee.getReportingTo());
 	return this.userService.updateEmployee(employee1);
 	}
 

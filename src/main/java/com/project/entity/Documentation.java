@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -26,7 +27,6 @@ public class Documentation {
 	private String fileUri;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@PrimaryKeyJoinColumn
 	@JsonBackReference(value = "employee-docs")
 	private Employee employee;
 

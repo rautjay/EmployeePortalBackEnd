@@ -126,6 +126,37 @@ public class LeaveController {
 	@DeleteMapping("/{id}")
 	public String deleteLeave(@PathVariable("id") int id)
 	{
+		 String leaveType = "Casual";
+	        String grantedOption = "Accepted";
+           String leaveType1 = "Earned";
+           String leaveType2 = "Medical";
+		Optional<Leaves> OptionalLeaves = this.leaveRepository.findById(id);
+		Leaves leave = OptionalLeaves.get();
+		int empId = leave.getEmployeeId();
+		Optional<Employee> optionalEmployee = employeeRepository.findById(empId);
+    	Optional<Intern> optionalIntern = this.internRepository.findById(empId);
+	
+		if(optionalEmployee.isPresent() && leave.getGrantedOption() != null) {
+		     
+			Employee employee = optionalEmployee.get();
+			if(leave.getGrantedOption().equals(grantedOption) && leave.getLeavetype().equals(leaveType)) {
+				employee.setTotalCasualLeaves(employee.getTotalCasualLeaves() - leave.getNumberOfLeave());
+			}
+			else if(leave.getGrantedOption().equals(grantedOption) && leave.getLeavetype().equals(leaveType1))
+			{
+				employee.setTotalEarnedLeaves(employee.getTotalEarnedLeaves() - leave.getNumberOfLeave());
+			}
+			else if(leave.getGrantedOption().equals(grantedOption) && leave.getLeavetype().equals(leaveType2))
+			{
+				employee.setTotalSickLeaves(employee.getTotalSickLeaves() - leave.getNumberOfLeave());
+			}
+		}
+		else if(optionalIntern.isPresent() && leave.getGrantedOption()!= null)
+		{
+			Intern intern = optionalIntern.get();
+			intern.setTotalLeave(intern.getTotalLeave() - leave.getNumberOfLeave());
+		}
+		
 		this.leaveService.deleteLeaves(id);
 		return "leave Deleted";
 	}
@@ -174,4 +205,6 @@ public class LeaveController {
 		}
 		return ResponseEntity.ok(leave);
 	}
+	
+
 }

@@ -36,9 +36,8 @@ public class Leaves {
 	@JsonBackReference(value = "employee-leaves")
 	private Employee employee;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference(value = "intern-leave")
-	 @JsonInclude(JsonInclude.Include.NON_NULL)
 	private Intern intern;
 
 	public Leaves() {
